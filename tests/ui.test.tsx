@@ -51,6 +51,13 @@ describe("US4 / US6: insurer card", () => {
 });
 
 describe("US2: ask form", () => {
+  it("TC3.1 shows the reason a value was rejected, in Persian digits", async () => {
+    const view = await resolveSearch({ q: "پراید ۹۸ تخفیف ۸۰ درصد" }, { sources: createSources(), now: NOW });
+    if (view.kind !== "ask") throw new Error("expected ask");
+    render(<AskForm known={view.known} ask={view.ask} />);
+    expect(screen.getByText("حداکثر ۷۰ درصد")).toBeTruthy();
+  });
+
   it("TC2.1 shows only the missing fields and keeps the model as a hidden field", async () => {
     const view = await resolveSearch({ q: "پراید" }, { sources: createSources(), now: NOW });
     if (view.kind !== "ask") throw new Error("expected ask");

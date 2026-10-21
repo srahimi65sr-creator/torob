@@ -10,3 +10,8 @@ export function faNumber(n: number): string {
 export function faDigits(n: number): string {
   return plain.format(n);
 }
+
+/** Persian digits inside a sentence: "حداکثر 70 درصد" → "حداکثر ۷۰ درصد". */
+export function faText(text: string): string {
+  return text.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[Number(d)]);
+}

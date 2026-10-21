@@ -108,7 +108,7 @@ The database is created in `.data/pglite` on first request; migrations and seed 
 ## Test it
 
 ```bash
-pnpm test         # 49 tests: stories, components, database
+pnpm test         # 50 tests: stories, components, database
 pnpm typecheck
 pnpm lint
 ```

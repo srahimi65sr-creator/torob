@@ -8,7 +8,7 @@ import {
   type QuoteField,
   type QuoteRequest,
 } from "@/domain/quote-request";
-import { faDigits, faNumber } from "./format";
+import { faDigits, faNumber, faText } from "./format";
 
 const PARAM: Record<QuoteField, string> = {
   vehicleType: "type",
@@ -94,7 +94,7 @@ export function AskForm({
                 </option>
               ))}
             </select>
-            {error && <span className="text-xs text-torob">{error}</span>}
+            {error && <span className="text-xs text-torob">{faText(error)}</span>}
           </label>
         ))}
       </div>
