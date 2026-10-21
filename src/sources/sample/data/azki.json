@@ -1,0 +1,65 @@
+{
+  "_note": "اعداد نمونه، نه قیمت واقعی. قیمت = نرخ پایه × (۱ − تخفیف کاربر − تخفیف اضافه‌ی شرکت).",
+  "placeholder": true,
+  "sourceId": "azki",
+  "buyUrl": "https://www.azki.com/car-insurance/third-party-insurance",
+  "vehicles": [
+    {
+      "sourceModelId": "pride-131",
+      "vehicleType": "سواری",
+      "brand": "سایپا",
+      "model": "پراید ۱۳۱",
+      "basePrice": 8944000
+    },
+    {
+      "sourceModelId": "peugeot-206",
+      "vehicleType": "سواری",
+      "brand": "ایران خودرو",
+      "model": "پژو ۲۰۶ تیپ ۲",
+      "basePrice": 10513200
+    }
+  ],
+  "insurers": [
+    {
+      "insurerName": "بیمه ایران",
+      "extraDiscountPercent": 0,
+      "installment": {
+        "months": 6,
+        "downPaymentPercent": 25,
+        "markupPercent": 5
+      }
+    },
+    {
+      "insurerName": "بیمه آسیا",
+      "extraDiscountPercent": 2,
+      "installment": {
+        "months": 6,
+        "downPaymentPercent": 25,
+        "markupPercent": 5
+      }
+    },
+    {
+      "insurerName": "بیمه البرز",
+      "extraDiscountPercent": 3,
+      "installment": null
+    },
+    {
+      "insurerName": "بیمه دانا",
+      "extraDiscountPercent": 2,
+      "installment": {
+        "months": 4,
+        "downPaymentPercent": 30,
+        "markupPercent": 4
+      }
+    },
+    {
+      "insurerName": "بیمه پارسیان",
+      "extraDiscountPercent": 1,
+      "installment": {
+        "months": 6,
+        "downPaymentPercent": 25,
+        "markupPercent": 5
+      }
+    }
+  ]
+}

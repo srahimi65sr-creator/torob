@@ -1,0 +1,61 @@
+{
+  "_note": "اعداد نمونه، نه قیمت واقعی. قیمت = نرخ پایه × (۱ − تخفیف کاربر − تخفیف اضافه‌ی شرکت).",
+  "placeholder": true,
+  "sourceId": "bimebazar",
+  "buyUrl": "https://bimebazar.com/third-party-insurance/",
+  "vehicles": [
+    {
+      "sourceModelId": "pride-131",
+      "vehicleType": "سواری",
+      "brand": "سایپا",
+      "model": "پراید ۱۳۱",
+      "basePrice": 8944000
+    },
+    {
+      "sourceModelId": "peugeot-206",
+      "vehicleType": "سواری",
+      "brand": "ایران خودرو",
+      "model": "پژو ۲۰۶ تیپ ۲",
+      "basePrice": 10513200
+    }
+  ],
+  "insurers": [
+    {
+      "insurerName": "ایران",
+      "extraDiscountPercent": 0,
+      "installment": null
+    },
+    {
+      "insurerName": "آسیا",
+      "extraDiscountPercent": 2.5,
+      "installment": {
+        "months": 6,
+        "downPaymentPercent": 20,
+        "markupPercent": 6
+      }
+    },
+    {
+      "insurerName": "سامان",
+      "extraDiscountPercent": 2,
+      "installment": {
+        "months": 6,
+        "downPaymentPercent": 25,
+        "markupPercent": 5
+      }
+    },
+    {
+      "insurerName": "بیمه ما",
+      "extraDiscountPercent": 4,
+      "installment": null
+    },
+    {
+      "insurerName": "پارسیان",
+      "extraDiscountPercent": 1.5,
+      "installment": {
+        "months": 4,
+        "downPaymentPercent": 25,
+        "markupPercent": 4
+      }
+    }
+  ]
+}
