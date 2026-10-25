@@ -34,14 +34,25 @@ The full list of 21 test cases, each mapped to a story, is in [`tests/stories.te
 
 | Part | AI? | Why |
 | --- | --- | --- |
-| Understanding the user's free text | Yes (next step) | Open-ended, messy input |
-| Matching vehicle and insurer names across sellers | Only for unclear cases | Most of it is a lookup table |
+| Understanding the user's free text | Rules first, Claude for what they can't read | Open-ended, messy input |
+| Matching vehicle and insurer names across sellers | No, a lookup table | Exact names are known per seller |
 | Calculating and sorting prices | **No** | Must be exact and auditable |
 
-The free-text parser is rule-based today ([`src/ai/parse-query.ts`](src/ai/parse-query.ts)): fast,
-free and fully tested for the sample vehicles. An LLM fallback for sentences the rules don't
-understand is the next step. Every search is already logged with what the parser understood, so
-the LLM can be measured against real input before it ships.
+Free text goes through two readers:
+
+1. **Rules** ([`src/ai/parse-query.ts`](src/ai/parse-query.ts)) read model, year and discount from
+   most sentences: fast, free, fully tested.
+2. **Claude** ([`src/ai/llm-parser.ts`](src/ai/llm-parser.ts)) gets the sentence only when the rules
+   leave words unread, e.g. numbers written as words ("مال سال نود و هشت، چهار سال بدون خسارت").
+   It answers with structured output (a Zod schema whose vehicle field is limited to catalog ids),
+   fills only what the rules missed, and never overrides them. Its values go through the same
+   range checks as typed input. Server-side fallbacks are on, so a declined request is retried on
+   another model in the same call. If the model fails, search continues with the rules' reading and
+   the form asks for the rest.
+
+The model turns on when `ANTHROPIC_API_KEY` is set; without it the app runs on rules alone. Every
+search is logged with what was understood and by which reader (`rules` or `llm`), so the model can be
+measured on real input.
 
 ## Architecture
 
@@ -96,7 +107,7 @@ See [`src/sources/sample/data`](src/sources/sample/data).
 
 ## Run it
 
-Requires Node.js 22 and pnpm.
+Requires Node.js 22 and pnpm. Optional: `ANTHROPIC_API_KEY` to turn on the Claude reader.
 
 ```bash
 pnpm install
@@ -108,7 +119,7 @@ The database is created in `.data/pglite` on first request; migrations and seed 
 ## Test it
 
 ```bash
-pnpm test         # 50 tests: stories, components, database
+pnpm test         # 63 tests: stories, components, database, LLM reader (stubbed, no key needed)
 pnpm typecheck
 pnpm lint
 ```
@@ -117,9 +128,20 @@ Every story was also run by hand in a real browser. That pass found three bugs t
 tests had missed (empty fields sent as `"undefined"`, years shown with a thousands separator, and
 a missing data folder that broke the first request). Each now has a test.
 
+## How it was built
+
+Product work first, then code. Before writing code: a design doc (problem, scope, data, technical
+design, Torob-based design tokens), a look at how Azki and BimeBazar actually quote third-party
+insurance, and explicit scope decisions (price only for v1, no crawling, Torob as a sales channel).
+Then 8 user stories, turned into 21 test cases before implementation.
+
+The code was written with Claude Code as a pair: I owned the product decisions, the stories and the
+corner cases; Claude Code wrote code against them, and every story was verified by automated tests
+and by hand in a real browser.
+
 ## Next
 
-1. LLM fallback for free text, measured on the logged searches
+1. Measure the Claude reader on logged searches; grow the rules where it keeps being needed
 2. Seller APIs under contract, replacing the sample adapter
 3. Claim-experience signals (insurers' solvency ratings, user reviews) as a second sort
 4. Body insurance and more sellers

@@ -1,3 +1,4 @@
+import { llmParserFromEnv } from "@/ai/llm-parser";
 import { getDb } from "@/db/client";
 import { DbQuoteStore } from "@/db/quote-store";
 import { createSources } from "@/sources";
@@ -14,7 +15,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   );
   const sources = createSources();
   const store = new DbQuoteStore(await getDb());
-  const view = await resolveSearch(params, { sources, store });
+  const view = await resolveSearch(params, { sources, store, llm: llmParserFromEnv() });
 
   return (
     <>
